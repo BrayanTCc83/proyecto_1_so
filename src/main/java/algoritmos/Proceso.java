@@ -10,22 +10,19 @@ package algoritmos;
  */
 public class Proceso {
     private static int contador = 0;
-    private int idProceso;
-    private String nombre;
-    private int tame;   
-    private int tejecucion;
-    private int tllegada;
+    final private int idProceso;
+    final private String nombre;
+    final private float tame;   
+    final private float tejecucion;
+    final private float tllegada;
     
-    
-    
-    public Proceso(String n,int tm,int tej,int tll) {
+    public Proceso(String n,float tm,float tej,float tll) {
         contador++; // Incrementa el contador cada vez que se crea una nueva instancia
         idProceso = contador; // Asigna el valor actual del contador como ID del proceso
         nombre=n; //Asigna el nombre del proceso
         tame=tm; //Asigna tamaño del proceso
         tejecucion=tej; //Asigna tiempo de ejecucion
-        tllegada=tll;   //Asigna tiempo de llegada 
-        
+        tllegada=tll;   //Asigna tiempo de llegada         
     }
     
     public int getIdProceso() {
@@ -40,16 +37,15 @@ public class Proceso {
         return nombre;
     }
 
-    public int getTame() {
+    public float getTame() {
         return tame;
     }
 
-    public int getTejecucion() {
+    public float getTejecucion() {
         return tejecucion;
     }
 
-    public int getTllegada() {
+    public float getTllegada() {
         return tllegada;
     }
-    
 }

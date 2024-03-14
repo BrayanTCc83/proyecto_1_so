@@ -25,15 +25,17 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
+        launch();
        
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese la memoria total disponible: ");
         int memoria = scanner.nextInt();
+        GestorDeMemoria.crearGestorMemoria(memoria);
+        
         System.out.print("Ingrese el tiempo de quantum: ");
         int tiempoQuantum = scanner.nextInt();
 
-        GestorDeProcesos gestor = new GestorDeProcesos(memoria, tiempoQuantum);
+        GestorDeProcesos gestor = new GestorDeProcesos(tiempoQuantum);
 
         String continuar;
         do {
