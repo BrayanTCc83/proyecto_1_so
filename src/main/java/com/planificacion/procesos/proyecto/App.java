@@ -43,6 +43,7 @@ public class App extends Application {
             System.out.print("¿Desea agregar otro proceso? (s/n): ");
             continuar = scanner.next();
         } while (continuar.equalsIgnoreCase("s"));
+        // Comentario
 
         System.out.println("Configuración completa. Las colas de procesos están listas.");
         // Aquí podrías seguir con la lógica para procesar las colas, etc.
