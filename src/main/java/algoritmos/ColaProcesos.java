@@ -8,17 +8,6 @@ package algoritmos;
  *
  * @author jcapi
  */
-
-class Nodo {
-    Proceso proceso;
-    Nodo siguiente;
-
-    public Nodo(Proceso proceso) {
-        this.proceso = proceso;
-        this.siguiente = null;
-    }
-}
-
 public class ColaProcesos {
     private Nodo frente;
     private Nodo finalCola;

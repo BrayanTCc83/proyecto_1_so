@@ -12,14 +12,31 @@ package algoritmos;
 import java.util.Scanner;
 
 public class GestorDeProcesos {
+    static private GestorDeProcesos gestorProcesos = null;
     // Funciona como una memoria "SWAP", almacena aquellos que no han podido ser cargados en memoria
     final private ColaProcesos colaListosSwap;
     // Especifica el periodo 
-    final private int tiempoQuantum;
+    private int tiempoQuantum;
 
-    public GestorDeProcesos(int tiempoQuantum) {
+    private GestorDeProcesos() {
         this.colaListosSwap = new ColaProcesos();
-        this.tiempoQuantum = tiempoQuantum;
+    }
+    
+    public static GestorDeProcesos crearGestorProcesos() {
+        if(gestorProcesos == null)
+            gestorProcesos = new GestorDeProcesos();
+        
+        return gestorProcesos;
+    }
+    
+    public static GestorDeProcesos obtenerGestorProcesos() {
+        if(gestorProcesos == null)
+            crearGestorProcesos();
+        return gestorProcesos;
+    }
+    
+    public void asignarQuantum(int quantum) {
+        this.tiempoQuantum = quantum;
     }
 
     public void agregarProcesoInteractivo() {
@@ -42,5 +59,17 @@ public class GestorDeProcesos {
             colaListosSwap.enqueue(proceso);
             System.out.println("Proceso agregado a la cola de listos (no hay suficiente memoria).");
         }
+    }
+    
+    public boolean agregarProceso(String nombre, float tamano, float tiempoLlegada, float tiempoEjecucion) {
+        Proceso proceso = new Proceso(nombre, tamano, tiempoEjecucion, tiempoLlegada);
+        
+        // Verificar si el proceso cabe en la memoria para ejecución
+        if (GestorDeMemoria.obtenerGestorMemoria().asignarMemoria(proceso) == -1) {
+            colaListosSwap.enqueue(proceso);
+            return true;
+        }
+        
+        return false;
     }
 }
