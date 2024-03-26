@@ -11,6 +11,7 @@ package algoritmos;
 public class ColaProcesos {
     private Nodo frente;
     private Nodo finalCola;
+    private int tamano = 0;
 
     public ColaProcesos() {
         this.frente = null;
@@ -27,6 +28,7 @@ public class ColaProcesos {
             finalCola.siguiente = nuevoNodo;
             finalCola = nuevoNodo;
         }
+        tamano++;
     }
 
     // Método para remover y retornar el proceso al frente de la cola
@@ -39,12 +41,25 @@ public class ColaProcesos {
         if (frente == null) {
             finalCola = null; // La cola se ha vaciado completamente
         }
+        tamano--;
         return proceso;
     }
 
     // Método para verificar si la cola está vacía
     public boolean estaVacia() {
         return frente == null;
+    }
+    
+    public Proceso[] comoArreglo() {
+        Proceso[] procesos = new Proceso[this.tamano];
+        int i = 0;
+        
+        Nodo nodo = frente;
+        while(nodo != null) {
+            procesos[i++] = nodo.proceso;
+            nodo = nodo.siguiente;
+        }
+        return procesos;
     }
 }
 

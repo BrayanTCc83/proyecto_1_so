@@ -49,7 +49,7 @@ public class App extends Application {
         System.out.print("Ingrese el tiempo de quantum: ");
         int tiempoQuantum = scanner.nextInt();
 
-        GestorDeProcesos gestor = GestorDeProcesos.crearGestorProcesos();
+        GestorDeProcesos gestor = GestorDeProcesos.obtenerGestorProcesos();
         gestor.asignarQuantum(tiempoQuantum);
 
         String continuar;

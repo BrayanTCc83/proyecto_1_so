@@ -4,10 +4,8 @@
  */
 package com.planificacion.procesos.proyecto;
 
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import vistas.Vista;
-import vistas.VistaPrecargarProcesos;
 
 class TablaHash<T> {
     private class Nodo<T> {
@@ -101,6 +99,9 @@ public class ControladorVistas {
         
         if(ultimaVentana != null)
             ultimaVentana.close();
+        
+        if(vista == null)
+            return;
         
         Stage nuevaVentana = new Stage();
         nuevaVentana.setScene(vista.recuperarEscena());

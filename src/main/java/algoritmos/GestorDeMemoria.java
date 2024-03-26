@@ -8,7 +8,7 @@ package algoritmos;
  *
  * @author btell
  */
-public class GestorDeMemoria {
+public class GestorDeMemoria implements Observable {
     static private GestorDeMemoria gestorMemoria = null;
     final private ColaProcesos procesosEnMemoria;
     final private float memoriaTotal;
@@ -64,5 +64,26 @@ public class GestorDeMemoria {
     
     public int obtenerNumeroProcesosCargados() {
         return this.posicionFinal;
+    }
+
+    private Observador o;
+    @Override
+    public void observar(Observador o) {
+        this.o = o;
+    }
+
+    @Override
+    public void olvidar(Observador o) {
+        this.o = null;
+    }
+
+    @Override
+    public void notificar() {
+        if(this.o != null)
+            this.o.actualizar();
+    }
+
+    public Proceso[] obtenerProcesos() {
+        return this.procesosEnMemoria.comoArreglo();
     }
 }

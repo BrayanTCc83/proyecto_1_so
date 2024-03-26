@@ -11,7 +11,7 @@ package algoritmos;
  */
 import java.util.Scanner;
 
-public class GestorDeProcesos {
+public class GestorDeProcesos implements Observable {
     static private GestorDeProcesos gestorProcesos = null;
     // Funciona como una memoria "SWAP", almacena aquellos que no han podido ser cargados en memoria
     final private ColaProcesos colaListosSwap;
@@ -22,16 +22,9 @@ public class GestorDeProcesos {
         this.colaListosSwap = new ColaProcesos();
     }
     
-    public static GestorDeProcesos crearGestorProcesos() {
-        if(gestorProcesos == null)
-            gestorProcesos = new GestorDeProcesos();
-        
-        return gestorProcesos;
-    }
-    
     public static GestorDeProcesos obtenerGestorProcesos() {
         if(gestorProcesos == null)
-            crearGestorProcesos();
+            gestorProcesos = new GestorDeProcesos();
         return gestorProcesos;
     }
     
@@ -59,5 +52,32 @@ public class GestorDeProcesos {
             colaListosSwap.enqueue(proceso);
             System.out.println("Proceso agregado a la cola de listos (no hay suficiente memoria).");
         }
+    }
+    
+    public void agregarProceso(Proceso proceso) {
+        if (GestorDeMemoria.obtenerGestorMemoria().asignarMemoria(proceso) == -1)
+            colaListosSwap.enqueue(proceso);
+        notificar();
+    }
+
+    private Observador o;
+    @Override
+    public void observar(Observador o) {
+        this.o = o;
+    }
+
+    @Override
+    public void olvidar(Observador o) {
+        this.o = null;
+    }
+
+    @Override
+    public void notificar() {
+        if(this.o != null)
+            this.o.actualizar();
+    }
+
+    public Proceso[] obtenerProcesos() {
+        return this.colaListosSwap.comoArreglo();
     }
 }

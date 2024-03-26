@@ -5,6 +5,7 @@
 package controlador;
 
 import algoritmos.BancoProcesos;
+import com.planificacion.procesos.proyecto.ControladorVistas;
 import componentes.BotonEstilado;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import vistas.Vista;
+import vistas.VistaEjecucion;
 import vistas.VistaPrecargarProcesos;
 
 /**
@@ -53,10 +55,13 @@ public class ControladorPrecargar extends Controlador {
         
         botonCancelar.setOnAction(evento -> {
             BancoProcesos.obtenerBancoProcesos().vaciar();
+            ControladorVistas.obtenerControlador().mostrarVista(Vista.VISTA_PRINCIPAL);
         });
         
         botonContinuar.setOnAction(evento -> {
-        
+            ControladorVistas controlador = ControladorVistas.obtenerControlador();
+            controlador.registrarVista(Vista.VISTA_EJECUCION, new VistaEjecucion());
+            controlador.mostrarVista(Vista.VISTA_EJECUCION);
         });
     }
 
