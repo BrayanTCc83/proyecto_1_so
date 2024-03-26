@@ -56,7 +56,8 @@ public class BancoProcesos implements Observable {
     
     public void vaciar() {
         this.listaProcesos.vaciar();
-        this.o.actualizar();
+        if(this.o != null)
+            this.o.actualizar();
     }
     
     public Proceso[] recuperarProcesos() {
@@ -76,6 +77,7 @@ public class BancoProcesos implements Observable {
 
     @Override
     public void notificar() {
-        this.o.actualizar();
+        if(this.o != null)
+            this.o.actualizar();
     }
 }

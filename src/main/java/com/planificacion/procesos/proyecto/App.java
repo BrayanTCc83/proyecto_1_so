@@ -8,6 +8,7 @@ import algoritmos.*;
 import componentes.BotonEstilado;
 import java.util.Scanner;
 import javafx.scene.layout.VBox;
+import vistas.Vista;
 import vistas.VistaPrecargarProcesos;
 
 /**
@@ -28,9 +29,9 @@ public class App extends Application {
         botonPrecargar.setOnAction(evento -> {
             try {
                 VistaPrecargarProcesos precargar = new VistaPrecargarProcesos();
-                Stage newStage = new Stage();
-                newStage.setScene(precargar.recuperarEscena());
-                newStage.show();
+                ControladorVistas controlador = ControladorVistas.obtenerControlador();
+                controlador.registrarVista(Vista.VISTA_PRECARGAR, precargar);
+                controlador.mostrarVista(Vista.VISTA_PRECARGAR);
             } catch(Exception e) {
                 System.out.println(e.getMessage());
             }

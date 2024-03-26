@@ -12,6 +12,12 @@ import javafx.scene.Scene;
  * @author btell
  */
 abstract public class Vista {
+    final public static String VISTA_PRECARGAR = "precargar";
+    final public static String VISTA_PRINCIPAL = "principal";
+    final public static String VISTA_EJECUCION = "ejecucion";
+    final public static String VISTA_PROCESO = "proceso";
+    final public static String VISTA_FINAL = "final";
+    
     protected Controlador controlador;
     protected Scene scene;
     public Vista() {
