@@ -4,13 +4,14 @@
  */
 package controlador;
 
+import algoritmos.Observador;
 import vistas.Vista;
 
 /**
  *
  * @author btell
  */
-public abstract class Controlador {
+public abstract class Controlador implements Observador {
     protected final Vista vista;
     public Controlador(Vista vista) {
         this.vista = vista;

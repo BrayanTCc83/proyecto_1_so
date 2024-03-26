@@ -28,15 +28,13 @@ public class ListaProcesos {
 
     // Método para remover y retornar el proceso al frente de la cola
     public Proceso eliminarFinal() {
-        if (frente == null) {
+        if (frente == null)
             return null; // La cola está vacía
-        }
         
         Proceso proceso = frente.proceso;
         frente = frente.siguiente;
-        if (frente == null) {
+        if (frente == null)
             finalCola = null; // La lista se ha vaciado completamente
-        }
         
         tamano--;
         return proceso;
@@ -57,12 +55,14 @@ public class ListaProcesos {
         if(auxiliar == null)
             return null;
         
-        if(auxiliar == frente)
-            frente = null;
-        else if(anterior != null)
+        if(anterior != null) {
             anterior.siguiente = auxiliar.siguiente;
+            auxiliar.siguiente = null;
+        }
         
-        if(auxiliar == finalCola)
+        if(auxiliar == frente)
+            frente = auxiliar.siguiente;
+        else if(auxiliar == finalCola)
             finalCola = anterior;
         
         tamano--;
@@ -107,5 +107,10 @@ public class ListaProcesos {
             nodo = nodo.siguiente;
         }
         return procesos;
+    }
+    
+    public void vaciar() {
+        tamano = 0;
+        frente = finalCola = null;
     }
 }

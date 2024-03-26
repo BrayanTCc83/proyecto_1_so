@@ -4,13 +4,11 @@
  */
 package algoritmos;
 
-import componentes.ItemProceso;
-
 /**
  *
  * @author btell
  */
-public class BancoProcesos {
+public class BancoProcesos implements Observable {
     static BancoProcesos banco;
     final private ListaProcesos listaProcesos;
     
@@ -25,16 +23,16 @@ public class BancoProcesos {
         return banco;
     }
     
-    public void insertar(Proceso proceso) {
-        this.listaProcesos.insertar(proceso);
-    }
-    
     public void insertar(String nombre, float tamano, float tiempoLlegada, float tiempoEjecucion) {
         this.listaProcesos.insertar(new Proceso(nombre, tamano, tiempoLlegada, tiempoEjecucion));
+        notificar();
     }
     
     public boolean eliminar(Proceso proceso) {
         Proceso resultado = this.listaProcesos.eliminar(proceso.getIdProceso());
+        if(resultado != null)
+            notificar();
+        
         return resultado != null;
     }
     
@@ -51,11 +49,33 @@ public class BancoProcesos {
 
             nodo = nodo.siguiente;
         }
+        notificar();
         
         return cola;
     }
     
+    public void vaciar() {
+        this.listaProcesos.vaciar();
+        this.o.actualizar();
+    }
+    
     public Proceso[] recuperarProcesos() {
         return this.listaProcesos.comoArreglo();
+    }
+
+    private Observador o;
+    @Override
+    public void observar(Observador o) {
+        this.o = o;
+    }
+
+    @Override
+    public void olvidar(Observador o) {
+        this.o = null;
+    }
+
+    @Override
+    public void notificar() {
+        this.o.actualizar();
     }
 }

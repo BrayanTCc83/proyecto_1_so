@@ -21,6 +21,7 @@ import vistas.VistaPrecargarProcesos;
 public class ControladorPrecargar extends Controlador {
     public ControladorPrecargar(Vista vista) {
         super(vista);
+        BancoProcesos.obtenerBancoProcesos().observar(this);
     }
 
     @Override
@@ -51,11 +52,16 @@ public class ControladorPrecargar extends Controlador {
         });
         
         botonCancelar.setOnAction(evento -> {
-        
+            BancoProcesos.obtenerBancoProcesos().vaciar();
         });
         
         botonContinuar.setOnAction(evento -> {
         
         });
+    }
+
+    @Override
+    public void actualizar() {
+        this.vista.refrescar();
     }
 }
