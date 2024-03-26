@@ -5,9 +5,6 @@
 package controlador;
 
 import algoritmos.BancoProcesos;
-import algoritmos.GestorDeMemoria;
-import algoritmos.GestorDeProcesos;
-import algoritmos.Proceso;
 import componentes.BotonEstilado;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;

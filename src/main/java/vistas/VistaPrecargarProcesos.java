@@ -5,9 +5,6 @@
 package vistas;
 
 import algoritmos.BancoProcesos;
-import algoritmos.GestorDeMemoria;
-import algoritmos.ListaProcesos;
-import algoritmos.Nodo;
 import algoritmos.Proceso;
 import componentes.BotonEstilado;
 import componentes.ItemProceso;

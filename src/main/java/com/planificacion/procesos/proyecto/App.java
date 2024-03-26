@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import algoritmos.*;
 import componentes.BotonEstilado;
 import java.util.Scanner;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import vistas.VistaPrecargarProcesos;
 
