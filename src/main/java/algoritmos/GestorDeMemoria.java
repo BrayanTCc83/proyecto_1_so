@@ -10,7 +10,7 @@ package algoritmos;
  */
 public class GestorDeMemoria {
     static private GestorDeMemoria gestorMemoria = null;
-    final private ListaProcesos procesosEnMemoria;
+    final private ColaProcesos procesosEnMemoria;
     final private float memoriaTotal;
     private float memoriaRestante;
     private int posicionFinal = 0;
@@ -28,7 +28,7 @@ public class GestorDeMemoria {
     
     private GestorDeMemoria(float memoriaTotal) {
         this.memoriaTotal = this.memoriaRestante = memoriaTotal;
-        this.procesosEnMemoria = new ListaProcesos();
+        this.procesosEnMemoria = new ColaProcesos();
     }
     
     public int asignarMemoria(Proceso proceso) {
@@ -39,29 +39,19 @@ public class GestorDeMemoria {
         }
         
         memoriaRestante -= tamProceso;
-        this.procesosEnMemoria.insertar(proceso);
+        this.procesosEnMemoria.enqueue(proceso);
         System.out.println("Subió el proceso " + proceso.getNombre() + " y restan " + this.memoriaRestante + " unidades de memoria.");
         return posicionFinal++;
     }
     
     public Proceso extraerDeMemoria() {
-        Proceso proceso = this.procesosEnMemoria.eliminarFinal();
+        Proceso proceso = this.procesosEnMemoria.dequeue();
         if(proceso == null)
             return null;
         
         this.memoriaRestante += proceso.getTame();
         --this.posicionFinal;
         return proceso;
-    }
-    
-    public boolean extraerDeMemoria(Proceso proceso) {
-        boolean resultado = this.procesosEnMemoria.eliminar(proceso.getIdProceso());
-        if(!resultado)
-            return resultado;
-        
-        this.memoriaRestante += proceso.getTame();
-        --this.posicionFinal;
-        return resultado;
     }
     
     public float obtenerMemoriaTotal() {
@@ -74,8 +64,5 @@ public class GestorDeMemoria {
     
     public int obtenerNumeroProcesosCargados() {
         return this.posicionFinal;
-    }
-    public ListaProcesos recuperarListaProcesos() {
-        return procesosEnMemoria;
     }
 }

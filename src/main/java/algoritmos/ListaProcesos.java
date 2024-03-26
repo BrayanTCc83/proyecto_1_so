@@ -11,6 +11,7 @@ package algoritmos;
 public class ListaProcesos {
     private Nodo frente = null;
     private Nodo finalCola = null;
+    private int tamano = 0;
 
     // Método para agregar un proceso a la cola
     public void insertar(Proceso nuevoProceso) {
@@ -22,6 +23,7 @@ public class ListaProcesos {
             finalCola.siguiente = nuevoNodo;
             finalCola = nuevoNodo;
         }
+        tamano++;
     }
 
     // Método para remover y retornar el proceso al frente de la cola
@@ -29,18 +31,21 @@ public class ListaProcesos {
         if (frente == null) {
             return null; // La cola está vacía
         }
+        
         Proceso proceso = frente.proceso;
         frente = frente.siguiente;
         if (frente == null) {
             finalCola = null; // La lista se ha vaciado completamente
         }
+        
+        tamano--;
         return proceso;
     }
     
     // Método para remover y retornar el proceso al frente de la cola
-    public boolean eliminar(int idProceso) {
+    public Proceso eliminar(int idProceso) {
         if (frente == null)
-            return false;
+            return null;
         
         Nodo anterior = null;
         Nodo auxiliar = frente;
@@ -50,7 +55,7 @@ public class ListaProcesos {
         }
         
         if(auxiliar == null)
-            return false;
+            return null;
         
         if(auxiliar == frente)
             frente = null;
@@ -60,7 +65,8 @@ public class ListaProcesos {
         if(auxiliar == finalCola)
             finalCola = anterior;
         
-        return true;
+        tamano--;
+        return auxiliar.proceso;
     }
 
     // Método para remover y retornar el proceso al frente de la cola
@@ -81,9 +87,25 @@ public class ListaProcesos {
     public Nodo obtenerInicio() {
         return this.frente;
     }
+    
+    public int obtenerTamano() {
+        return this.tamano;
+    }
 
     // Método para verificar si la cola está vacía
     public boolean estaVacia() {
         return frente == null;
+    }
+    
+    public Proceso[] comoArreglo() {
+        Proceso[] procesos = new Proceso[this.tamano];
+        int i = 0;
+        
+        Nodo nodo = frente;
+        while(nodo != null) {
+            procesos[i++] = nodo.proceso;
+            nodo = nodo.siguiente;
+        }
+        return procesos;
     }
 }

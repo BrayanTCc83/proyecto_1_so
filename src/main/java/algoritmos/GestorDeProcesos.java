@@ -60,16 +60,4 @@ public class GestorDeProcesos {
             System.out.println("Proceso agregado a la cola de listos (no hay suficiente memoria).");
         }
     }
-    
-    public boolean agregarProceso(String nombre, float tamano, float tiempoLlegada, float tiempoEjecucion) {
-        Proceso proceso = new Proceso(nombre, tamano, tiempoEjecucion, tiempoLlegada);
-        
-        // Verificar si el proceso cabe en la memoria para ejecución
-        if (GestorDeMemoria.obtenerGestorMemoria().asignarMemoria(proceso) == -1) {
-            colaListosSwap.enqueue(proceso);
-            return true;
-        }
-        
-        return false;
-    }
 }
