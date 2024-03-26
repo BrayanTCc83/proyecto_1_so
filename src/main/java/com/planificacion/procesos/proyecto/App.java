@@ -27,19 +27,14 @@ public class App extends Application {
         stage.show();
         
         botonPrecargar.setOnAction(evento -> {
-            var dialogoMemoria = new TextInputDialog("Tamaño de la memoria");
-            dialogoMemoria.show();
-            dialogoMemoria.setOnCloseRequest(event -> {
-                try {
-                    GestorDeMemoria.crearGestorMemoria(Float.parseFloat(dialogoMemoria.getResult()));
-                    VistaPrecargarProcesos precargar = new VistaPrecargarProcesos();
-                    Stage newStage = new Stage();
-                    newStage.setScene(precargar.recuperarEscena());
-                    newStage.show();
-                } catch(Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            } );
+            try {
+                VistaPrecargarProcesos precargar = new VistaPrecargarProcesos();
+                Stage newStage = new Stage();
+                newStage.setScene(precargar.recuperarEscena());
+                newStage.show();
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
         });
     }
 

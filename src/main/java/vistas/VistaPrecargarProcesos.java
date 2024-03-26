@@ -4,9 +4,11 @@
  */
 package vistas;
 
+import algoritmos.BancoProcesos;
 import algoritmos.GestorDeMemoria;
 import algoritmos.ListaProcesos;
 import algoritmos.Nodo;
+import algoritmos.Proceso;
 import componentes.BotonEstilado;
 import componentes.ItemProceso;
 import controlador.ControladorPrecargar;
@@ -49,12 +51,9 @@ public class VistaPrecargarProcesos extends Vista {
     public void refrescar() {
         listaProcesos.getChildren().clear();
         
-        ListaProcesos procesos = GestorDeMemoria.obtenerGestorMemoria().recuperarListaProcesos();
-        Nodo nodo = procesos.obtenerInicio();
-        while(nodo != null) {
-            listaProcesos.getChildren().add(new ItemProceso(nodo.proceso));
-            nodo = nodo.siguiente;
-        }
+        Proceso[] procesos = BancoProcesos.obtenerBancoProcesos().recuperarProcesos();
+        for(Proceso proceso: procesos)
+            listaProcesos.getChildren().add(new ItemProceso(proceso));
     }
     
     public VBox recuperarFormulario() {

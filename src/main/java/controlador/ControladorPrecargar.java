@@ -4,6 +4,7 @@
  */
 package controlador;
 
+import algoritmos.BancoProcesos;
 import algoritmos.GestorDeMemoria;
 import algoritmos.GestorDeProcesos;
 import algoritmos.Proceso;
@@ -41,9 +42,10 @@ public class ControladorPrecargar extends Controlador {
                 String duracion = ((TextField)children.get(4)).getText();
                 String llegada = ((TextField)children.get(6)).getText();
                 String tamano = ((TextField)children.get(8)).getText();
-                GestorDeProcesos.obtenerGestorProcesos().agregarProceso(
-                        nombre, Float.parseFloat(duracion), 
-                        Float.parseFloat(llegada), Float.parseFloat(tamano)
+                
+                BancoProcesos.obtenerBancoProcesos().insertar(
+                    nombre, Float.parseFloat(duracion), 
+                    Float.parseFloat(llegada), Float.parseFloat(tamano)
                 );
                 vista.refrescar();
             } catch(Exception e) {
