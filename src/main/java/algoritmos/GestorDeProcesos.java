@@ -9,7 +9,11 @@ package algoritmos;
  * @author jcapi
  * @author btell
  */
+import algoritmos.GeneradorMetricas.Metrica;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.application.Platform;
 
 public class GestorDeProcesos implements Observable {
     static private GestorDeProcesos gestorProcesos = null;
@@ -58,6 +62,81 @@ public class GestorDeProcesos implements Observable {
         if (GestorDeMemoria.obtenerGestorMemoria().asignarMemoria(proceso) == -1)
             colaListosSwap.enqueue(proceso);
         notificar();
+    }
+    
+    private Timer temporizador;
+    private int tiempo = -1;
+    private Proceso proceso;
+    private void subirProcesosMemoria() {
+        if(colaListosSwap.estaVacia()) {
+            notificar();
+            return;
+        }
+        
+        float restante = GestorDeMemoria.obtenerGestorMemoria().obtenerMemoriaRestante();
+        float tamano = colaListosSwap.tamanoFinal();
+        if(restante >= tamano) {
+            GestorDeMemoria.obtenerGestorMemoria().asignarMemoria(colaListosSwap.dequeue());
+            notificar();
+        }
+    }
+    
+    private void algoritmoRoundRobin() {
+        GestorDeMemoria gestor = GestorDeMemoria.obtenerGestorMemoria();
+        GeneradorMetricas metricas = GeneradorMetricas.obtenerGeneradorMetricas();
+        
+        if(proceso == null) {
+            proceso = gestor.extraerDeMemoria();
+            if(proceso == null) {
+                subirProcesosMemoria();
+                return;
+            }
+        }
+        
+        Metrica metrica= metricas.obtenerMetricasProceso(proceso);
+        
+        if(metrica == null) {
+            metricas.registrarProceso(proceso);
+            metrica = metricas.obtenerMetricasProceso(proceso);
+            metrica.actualizarTiempoEspera(tiempo);
+        } else if(metricas.obtenerProcesoArriba() != proceso.idProceso) {
+            metricas.subirProceso(proceso);
+            metrica.actualizarTiempoEspera(tiempo);
+        }
+        
+        metrica.actualizarTiemposEjecucion();
+        if(metrica.obtenerTiempoRestante() == 0)
+            proceso = null;
+        else if(metricas.obtenerTiempoArribaActual() == tiempoQuantum) {
+            colaListosSwap.enqueue(proceso);
+            proceso = null;
+            subirProcesosMemoria();
+        }
+    }
+    
+    public void iniciarRoundRobin() {
+        temporizador = new Timer(false);
+        temporizador.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    ColaProcesos cola = BancoProcesos.obtenerBancoProcesos().extraerProcesos(++tiempo);
+                    while(cola != null && !cola.estaVacia())
+                        agregarProceso(cola.dequeue());
+                    notificar();
+                    algoritmoRoundRobin();
+                });
+            }
+        }, 0, 1000);
+        
+    }
+
+    public int obtenerTiempo() {
+        return tiempo;
+    }
+
+    int obtenerQuantum() {
+        return tiempoQuantum;
     }
 
     private Observador o;

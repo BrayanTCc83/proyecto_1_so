@@ -24,7 +24,7 @@ public class BancoProcesos implements Observable {
     }
     
     public void insertar(String nombre, float tamano, float tiempoLlegada, float tiempoEjecucion) {
-        this.listaProcesos.insertar(new Proceso(nombre, tamano, tiempoLlegada, tiempoEjecucion));
+        this.listaProcesos.insertar(new Proceso(nombre, tamano, tiempoEjecucion, tiempoLlegada));
         notificar();
     }
     

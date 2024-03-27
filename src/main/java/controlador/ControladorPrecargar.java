@@ -44,8 +44,8 @@ public class ControladorPrecargar extends Controlador {
                 String tamano = ((TextField)children.get(8)).getText();
                 
                 BancoProcesos.obtenerBancoProcesos().insertar(
-                    nombre, Float.parseFloat(duracion), 
-                    Float.parseFloat(llegada), Float.parseFloat(tamano)
+                    nombre, Float.parseFloat(tamano), 
+                    Float.parseFloat(llegada), Float.parseFloat(duracion)
                 );
                 vista.refrescar();
             } catch(Exception e) {

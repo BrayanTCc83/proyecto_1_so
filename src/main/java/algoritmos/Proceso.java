@@ -10,11 +10,11 @@ package algoritmos;
  */
 public class Proceso {
     private static int contador = 0;
-    final private int idProceso;
-    final private String nombre;
-    final private float tame;   
-    final private float tejecucion;
-    final private float tllegada;
+    final public int idProceso;
+    final public String nombre;
+    final public float tame;   
+    final public float tejecucion;
+    final public float tllegada;
     
     public Proceso(String n,float tm,float tej,float tll) {
         contador++; // Incrementa el contador cada vez que se crea una nueva instancia

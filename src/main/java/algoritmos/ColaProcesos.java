@@ -61,6 +61,11 @@ public class ColaProcesos {
         }
         return procesos;
     }
+
+    float tamanoFinal() {
+        Proceso proceso = (Proceso) frente.valor;
+        return proceso.tame;
+    }
 }
 
 

@@ -4,16 +4,12 @@
  */
 package controlador;
 
-import algoritmos.BancoProcesos;
-import algoritmos.ColaProcesos;
+import algoritmos.GeneradorMetricas;
 import algoritmos.GestorDeMemoria;
 import algoritmos.GestorDeProcesos;
 import algoritmos.Proceso;
 import componentes.BotonEstilado;
 import componentes.ProcesoClickeable;
-import java.util.Timer;
-import java.util.TimerTask;
-import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,9 +21,6 @@ import vistas.VistaEjecucion;
  * @author btell
  */
 public class ControladorEjecucion extends Controlador {
-    private Timer temporizador;
-    private int t = -1;
-    
     public ControladorEjecucion(Vista vista) {
         super(vista);
     }
@@ -36,32 +29,32 @@ public class ControladorEjecucion extends Controlador {
     public void configurar() {
         VistaEjecucion vistaEjecucion = (VistaEjecucion) this.vista;
         HBox controles = vistaEjecucion.recuperarControles();
-        VBox datos = vistaEjecucion.recuperarDatos();
         
         GestorDeMemoria.crearGestorMemoria(3);
         GestorDeMemoria.obtenerGestorMemoria().observar(this);
         GestorDeProcesos.obtenerGestorProcesos().observar(this);
         
         ((BotonEstilado)controles.getChildren().get(1)).setOnAction(evento -> {
-            temporizador = new Timer(false);
-            temporizador.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> {
-                        t++;
-                        ColaProcesos cola = BancoProcesos.obtenerBancoProcesos().extraerProcesos(t);
-                        while(cola != null && !cola.estaVacia())
-                            GestorDeProcesos.obtenerGestorProcesos().agregarProceso(cola.dequeue());
-                        ((Label)datos.getChildren().get(1)).setText("" + t + " [ms]");
-                    });
-                }
-            }, 0, 1000);
+            GestorDeProcesos.obtenerGestorProcesos().asignarQuantum(2);
+            GestorDeProcesos.obtenerGestorProcesos().iniciarRoundRobin();
         });
     }
 
     @Override
     public void actualizar() {
         VistaEjecucion vistaEjecucion = (VistaEjecucion) this.vista;
+        GeneradorMetricas metricas = GeneradorMetricas.obtenerGeneradorMetricas();
+        VBox datos = vistaEjecucion.recuperarDatos();
+        float t;
+        if((t = GestorDeProcesos.obtenerGestorProcesos().obtenerTiempo()) > 0)
+            ((Label)datos.getChildren().get(1)).setText("" + t + " [ms]");
+        if((t = metricas.calcularTiempoEsperaPromedio()) > 0)
+            ((Label)datos.getChildren().get(3)).setText("" + t + " [ms]");
+        if((t = metricas.calcularTiempoRespuestaPromedio()) > 0)
+            ((Label)datos.getChildren().get(5)).setText("" + t + " [ms]");
+        if((t = metricas.calcularTiempoEjecucionPromedio()) > 0)
+            ((Label)datos.getChildren().get(7)).setText("" + t + " [ms]");
+        
         HBox SWAP = vistaEjecucion.recuperarSWAP();
         VBox RAM = vistaEjecucion.recuperarRAM();
         

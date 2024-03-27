@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
  */
 public class VistaEjecucion extends Vista {
     private VBox panelPrincipal;
-    private VBox memoria;
+    private VBox memoria, procesador;
     private HBox procesosNoCargados;
     private GridPane ejecucion;
     private VBox formulario;
@@ -37,17 +37,18 @@ public class VistaEjecucion extends Vista {
         );
         this.controles = new HBox(40, new BotonEstilado("Cancelar"), new BotonEstilado("Iniciar simulación"), new BotonEstilado("Terminar"));
         this.memoria = new VBox(10);
+        this.procesador = new VBox();
         this.procesosNoCargados = new HBox(10);
         this.ejecucion = new GridPane();
         this.datosTiempoReal = new VBox(10, 
-                new Label("Tiempo ejecucicion:"), new Label("0 [ms]"), 
+                new Label("Tiempo ejecución:"), new Label("0 [ms]"), 
                 new Label("Tiempo espera:"), new Label("0 [ms]"), 
                 new Label("Tiempo respuesta:"), new Label("0 [ms]"), 
                 new Label("Tiempo promedio:"), new Label("0 [ms]")
         );
         this.panelPrincipal = new VBox(10, 
             new HBox(40, 
-                new VBox(new Label("Memoria"), this.memoria),
+                new VBox(new Label("Memoria"), this.memoria, this.procesador),
                 new VBox(new Label("Procesos no cargados en memoria"), this.procesosNoCargados, new Label("Ejecución de procesos"), this.ejecucion),
                 new VBox(new Label("Creación de procesos"), this.formulario, new Label("Datos ejecución"), this.datosTiempoReal)
             ),
@@ -79,5 +80,9 @@ public class VistaEjecucion extends Vista {
     
     public VBox recuperarRAM() {
         return this.memoria;
+    }
+    
+    public VBox recuperarProcesador() {
+        return this.procesador;
     }
 }
