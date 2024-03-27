@@ -48,14 +48,13 @@ public class Lista<T> {
         return valor;
     }
     
-    // Método para remover y retornar el proceso al frente de la cola
-    public T eliminar(int idProceso) {
+    public T eliminar(T o) {
         if (frente == null)
             return null;
         
         Nodo anterior = null;
         Nodo auxiliar = frente;
-        while(auxiliar != null && ((Proceso)auxiliar.valor).getIdProceso() != idProceso) {
+        while(auxiliar != null && ((T)auxiliar.valor).equals(o)) {
             anterior = auxiliar;
             auxiliar = auxiliar.siguiente;
         }

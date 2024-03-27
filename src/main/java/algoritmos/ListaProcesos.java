@@ -26,4 +26,32 @@ public class ListaProcesos extends Lista<Proceso> {
         
         return (Proceso) auxiliar.valor;
     }
+    
+    public Proceso eliminar(int idProceso) {
+        if (frente == null)
+            return null;
+        
+        Nodo anterior = null;
+        Nodo auxiliar = frente;
+        while(auxiliar != null && ((Proceso)auxiliar.valor).getIdProceso() != idProceso) {
+            anterior = auxiliar;
+            auxiliar = auxiliar.siguiente;
+        }
+        
+        if(auxiliar == null)
+            return null;
+        
+        if(anterior != null) {
+            anterior.siguiente = auxiliar.siguiente;
+            auxiliar.siguiente = null;
+        }
+        
+        if(auxiliar == frente)
+            frente = auxiliar.siguiente;
+        else if(auxiliar == finalCola)
+            finalCola = anterior;
+        
+        tamano--;
+        return (Proceso) auxiliar.valor;
+    }
 }
