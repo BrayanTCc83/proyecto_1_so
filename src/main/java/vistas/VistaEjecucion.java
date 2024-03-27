@@ -6,7 +6,6 @@ package vistas;
 
 import componentes.BotonEstilado;
 import controlador.ControladorEjecucion;
-import controlador.ControladorPrecargar;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

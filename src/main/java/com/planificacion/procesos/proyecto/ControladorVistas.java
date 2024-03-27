@@ -4,8 +4,11 @@
  */
 package com.planificacion.procesos.proyecto;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import vistas.Vista;
+import vistas.VistaDetallesProceso;
 
 class TablaHash<T> {
     private class Nodo<T> {
@@ -32,6 +35,20 @@ class TablaHash<T> {
         tabla[index] = new Nodo<>(llave, valor);
         index++;
         return true;
+    }
+    
+    public T remplazar(String llave, T valor) {
+        T objeto = recuperar(llave);
+        if(objeto == null) {
+            insertar(llave, valor);
+            return objeto;
+        }
+        
+        int i = 0;
+        for(; i < index; i++)
+            if(tabla[i].llave.equalsIgnoreCase(llave))
+                tabla[i] = new Nodo(llave, valor);
+        return null;
     }
     
     public T eliminar(String llave) {
@@ -109,7 +126,21 @@ public class ControladorVistas {
         ultimaVentana = nuevaVentana;
     }
     
+    public void mostrarEmergente(String nombre) {
+        Vista vista = (Vista) tabla.recuperar(nombre);
+        if(vista == null)
+            return;
+                
+        Stage nuevaVentana = new Stage();
+        nuevaVentana.setScene(vista.recuperarEscena());
+        nuevaVentana.show();
+    }
+    
     public void reiniciar() {
         tabla.vaciar();
+    }
+
+    public Vista remplazarVista(String nombre, Vista vistaDetallesProceso) {
+        return (Vista) tabla.remplazar(nombre, vistaDetallesProceso);
     }
 }
