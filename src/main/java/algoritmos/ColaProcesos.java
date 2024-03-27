@@ -36,7 +36,7 @@ public class ColaProcesos {
         if (frente == null) {
             return null; // La cola está vacía
         }
-        Proceso proceso = frente.proceso;
+        Proceso proceso = (Proceso) frente.valor;
         frente = frente.siguiente;
         if (frente == null) {
             finalCola = null; // La cola se ha vaciado completamente
@@ -56,7 +56,7 @@ public class ColaProcesos {
         
         Nodo nodo = frente;
         while(nodo != null) {
-            procesos[i++] = nodo.proceso;
+            procesos[i++] = (Proceso) nodo.valor;
             nodo = nodo.siguiente;
         }
         return procesos;

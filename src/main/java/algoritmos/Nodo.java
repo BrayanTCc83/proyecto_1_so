@@ -8,12 +8,12 @@ package algoritmos;
  *
  * @author btell
  */
-public class Nodo {
-    public Proceso proceso;
+public class Nodo<T> {
+    public T valor;
     public Nodo siguiente;
 
-    public Nodo(Proceso proceso) {
-        this.proceso = proceso;
+    public Nodo(T proceso) {
+        this.valor = proceso;
         this.siguiente = null;
     }
 }

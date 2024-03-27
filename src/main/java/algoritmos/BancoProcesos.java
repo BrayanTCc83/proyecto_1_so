@@ -44,8 +44,8 @@ public class BancoProcesos implements Observable {
         
         Nodo nodo = listaProcesos.obtenerInicio();
         while(nodo != null) {
-            if(nodo.proceso.getTllegada() == tiempo)
-                cola.enqueue(listaProcesos.eliminar(nodo.proceso.getIdProceso()));
+            if(((Proceso)nodo.valor).getTllegada() == tiempo)
+                cola.enqueue(listaProcesos.eliminar(((Proceso)nodo.valor).getIdProceso()));
 
             nodo = nodo.siguiente;
         }
