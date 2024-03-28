@@ -104,14 +104,16 @@ public class GestorDeProcesos implements Observable {
             metrica.actualizarTiempoEspera(tiempo);
         }
         
-        metrica.actualizarTiemposEjecucion();
+        System.out.println("PROCESO [" + proceso.getNombre() + "]: {.Total = " + proceso.tejecucion 
+                + ", .Ejecutado = " + metrica.obtenerTiempoEjecutadoActual()+ ", .Restante = " + metrica.obtenerTiempoRestante() + "}" );
         if(metrica.obtenerTiempoRestante() == 0)
             proceso = null;
         else if(metricas.obtenerTiempoArribaActual() == tiempoQuantum) {
             colaListosSwap.enqueue(proceso);
             proceso = null;
             subirProcesosMemoria();
-        }
+        } else 
+            metrica.actualizarTiemposEjecucion();
     }
     
     public void iniciarRoundRobin() {

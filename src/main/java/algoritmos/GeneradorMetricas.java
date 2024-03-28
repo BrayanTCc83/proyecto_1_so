@@ -47,6 +47,10 @@ public class GeneradorMetricas implements Observable {
         public int obtenerTiempoEjecutado() {
             return tiempoEjecutado;
         }
+
+        public int obtenerTiempoEjecutadoActual() {
+            return tiempoMaximoEjecucion;
+        }
         
         public int obtenerMaximaEspera() {
             return tiempoMaximaEspera;
@@ -57,7 +61,7 @@ public class GeneradorMetricas implements Observable {
         }
         
         public int obtenerTiempoRestante() {
-            return ((int)proceso.tejecucion) - tiempoEjecutado;
+            return ((int)proceso.tejecucion) - tiempoMaximoEjecucion;
         }
         
         public float calcularTiempoEspera() {

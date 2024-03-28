@@ -30,12 +30,12 @@ public class ControladorEjecucion extends Controlador {
         VistaEjecucion vistaEjecucion = (VistaEjecucion) this.vista;
         HBox controles = vistaEjecucion.recuperarControles();
         
-        GestorDeMemoria.crearGestorMemoria(3);
+        GestorDeMemoria.crearGestorMemoria(4);
         GestorDeMemoria.obtenerGestorMemoria().observar(this);
         GestorDeProcesos.obtenerGestorProcesos().observar(this);
         
         ((BotonEstilado)controles.getChildren().get(1)).setOnAction(evento -> {
-            GestorDeProcesos.obtenerGestorProcesos().asignarQuantum(2);
+            GestorDeProcesos.obtenerGestorProcesos().asignarQuantum(4);
             GestorDeProcesos.obtenerGestorProcesos().iniciarRoundRobin();
         });
     }
