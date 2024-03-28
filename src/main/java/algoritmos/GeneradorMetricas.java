@@ -19,13 +19,15 @@ public class GeneradorMetricas implements Observable {
     }
 
     public class Metrica {
+        final private GeneradorMetricas padre;
         final private Proceso proceso;
         final public int idProceso;
-        private int tiempoEjecutado = 0;
-        private int tiempoMaximoEjecucion = 0;
-        private int tiempoMaximaEspera = -1;
-        private int tiempoPrimeraSubida = -1;
-        protected Metrica(Proceso proceso) {
+        private int tiempoEjecutado = 0;        // Tiempo de ejecución hasta el quantum anterior (Se actualiza cuando se crea un nuevo quantum)
+        private int tiempoMaximoEjecucion = 0;  // Tiempo de ejecución actual (Se actualiza cuando el proceso esta arriba)
+        private int tiempoMaximaEspera = -1;    // Ultima vez que subió al procesador
+        private int tiempoPrimeraSubida = -1;   // Primera vez que subió al procesador
+        protected Metrica(Proceso proceso, GeneradorMetricas padre) {
+            this.padre = padre;
             this.proceso = proceso;
             this.idProceso = proceso.idProceso;
         }
@@ -35,13 +37,15 @@ public class GeneradorMetricas implements Observable {
             if(tiempoPrimeraSubida != -1 && tiempoMaximoEjecucion%quantum==0)
                 tiempoEjecutado = tiempoMaximoEjecucion;
             tiempoMaximoEjecucion ++;
+            padre.notificar();
         }
         
         public void actualizarTiempoEspera(int subida) {
-            if(tiempoPrimeraSubida < 0)
-                tiempoPrimeraSubida = subida;
-            
-            tiempoMaximaEspera = subida;
+            tiempoPrimeraSubida = subida;
+        }
+
+        public void actualizarTiempoMaximoEspera(int tiempoMaximaEspera) {
+            this.tiempoMaximaEspera = tiempoMaximaEspera;
         }
         
         public int obtenerTiempoEjecutado() {
@@ -49,7 +53,7 @@ public class GeneradorMetricas implements Observable {
         }
 
         public int obtenerTiempoEjecutadoActual() {
-            return tiempoMaximoEjecucion;
+            return (tiempoMaximaEspera + tiempoMaximoEjecucion - tiempoEjecutado);
         }
         
         public int obtenerMaximaEspera() {
@@ -65,11 +69,11 @@ public class GeneradorMetricas implements Observable {
         }
         
         public float calcularTiempoEspera() {
-            return tiempoMaximaEspera - proceso.tejecucion - tiempoEjecutado;
+            return tiempoMaximaEspera - proceso.tllegada - tiempoEjecutado;
         }
         
         public float calcularTiempoEjecucion() {
-            return tiempoMaximoEjecucion - proceso.tllegada;
+            return obtenerTiempoEjecutadoActual() - proceso.tllegada;
         }
         
         public float calcularTiempoRespuesta() {
@@ -81,29 +85,10 @@ public class GeneradorMetricas implements Observable {
         }
     }
     private final Lista<Metrica> metricas = new Lista<>(Metrica.class);
-    private int estaArriba = -1;
-    private int tiempoActual = 0;
     
     void registrarProceso(Proceso proceso) {
-        metricas.insertar(new Metrica(proceso));
-        estaArriba = proceso.idProceso;
+        metricas.insertar(new Metrica(proceso, this));
         notificar();
-    }
-    
-    void subirProceso(Proceso proceso) {
-        tiempoActual = 0;
-        estaArriba = proceso.idProceso;
-        notificar();
-    }
-    
-    public int obtenerProcesoArriba() {
-        tiempoActual++;
-        return estaArriba;
-    }
-    
-    public int obtenerTiempoArribaActual() {
-        notificar();
-        return tiempoActual;
     }
     
     public Metrica obtenerMetricasProceso(Proceso proceso) {

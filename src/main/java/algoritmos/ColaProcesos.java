@@ -45,6 +45,13 @@ public class ColaProcesos {
         return proceso;
     }
 
+    public Proceso verFinal() {
+        if (estaVacia())
+            return null; // La cola está vacía
+
+        return (Proceso) frente.valor;
+    }
+
     // Método para verificar si la cola está vacía
     public boolean estaVacia() {
         return frente == null;
@@ -60,11 +67,6 @@ public class ColaProcesos {
             nodo = nodo.siguiente;
         }
         return procesos;
-    }
-
-    float tamanoFinal() {
-        Proceso proceso = (Proceso) frente.valor;
-        return proceso.tame;
     }
 }
 

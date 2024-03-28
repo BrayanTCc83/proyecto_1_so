@@ -66,6 +66,8 @@ public class GestorDeProcesos implements Observable {
     
     private Timer temporizador;
     private int tiempo = -1;
+    private int tiempoArriba = 0;
+    private boolean cambioProceso = false;
     private Proceso proceso;
     private void subirProcesosMemoria() {
         if(colaListosSwap.estaVacia()) {
@@ -74,46 +76,69 @@ public class GestorDeProcesos implements Observable {
         }
         
         float restante = GestorDeMemoria.obtenerGestorMemoria().obtenerMemoriaRestante();
-        float tamano = colaListosSwap.tamanoFinal();
+        float tamano = colaListosSwap.verFinal().getTame();
         if(restante >= tamano) {
             GestorDeMemoria.obtenerGestorMemoria().asignarMemoria(colaListosSwap.dequeue());
             notificar();
         }
     }
     
-    private void algoritmoRoundRobin() {
-        GestorDeMemoria gestor = GestorDeMemoria.obtenerGestorMemoria();
+    private Metrica guardarMetrica(Proceso proceso) {
         GeneradorMetricas metricas = GeneradorMetricas.obtenerGeneradorMetricas();
-        
-        if(proceso == null) {
-            proceso = gestor.extraerDeMemoria();
-            if(proceso == null) {
-                subirProcesosMemoria();
-                return;
-            }
-        }
-        
-        Metrica metrica= metricas.obtenerMetricasProceso(proceso);
-        
+        Metrica metrica = metricas.obtenerMetricasProceso(proceso);
         if(metrica == null) {
             metricas.registrarProceso(proceso);
             metrica = metricas.obtenerMetricasProceso(proceso);
             metrica.actualizarTiempoEspera(tiempo);
-        } else if(metricas.obtenerProcesoArriba() != proceso.idProceso) {
-            metricas.subirProceso(proceso);
-            metrica.actualizarTiempoEspera(tiempo);
+            cambioProceso = true;
+        }
+        if(cambioProceso) {
+            if(tiempo == proceso.tllegada)
+                metrica.actualizarTiempoMaximoEspera(tiempo);
+            else
+                metrica.actualizarTiempoMaximoEspera(tiempo - 1);
+            metricas.notificar();
+        }
+        return metrica;
+    }
+    
+    private void algoritmoRoundRobin() {
+        GestorDeMemoria gestor = GestorDeMemoria.obtenerGestorMemoria();
+        
+        if(proceso == null) {
+            proceso = gestor.obtenerUltimoProceso();
+            if(proceso == null) {
+                subirProcesosMemoria();
+                return;
+            } else if(tiempo == 0)
+                tiempoArriba = 0;
+            else {
+                tiempoArriba = 1; 
+                guardarMetrica(proceso).actualizarTiemposEjecucion();
+            }
         }
         
-        System.out.println("PROCESO [" + proceso.getNombre() + "]: {.Total = " + proceso.tejecucion 
+        Metrica metrica = guardarMetrica(proceso);
+        System.out.println("TIEMPO: {.Tiempo = " + tiempo + ", .Arriba = " + tiempoArriba + "}, PROCESO [" + proceso.getNombre() + "]: {.Total = " + proceso.tejecucion 
                 + ", .Ejecutado = " + metrica.obtenerTiempoEjecutadoActual()+ ", .Restante = " + metrica.obtenerTiempoRestante() + "}" );
-        if(metrica.obtenerTiempoRestante() == 0)
+        
+        if(metrica.obtenerTiempoRestante() == 0) {
             proceso = null;
-        else if(metricas.obtenerTiempoArribaActual() == tiempoQuantum) {
-            colaListosSwap.enqueue(proceso);
-            proceso = null;
+            gestor.extraerDeMemoria();
+            cambioProceso = true;
+        } else if(tiempoArriba == tiempoQuantum) {
+            colaListosSwap.enqueue(gestor.extraerDeMemoria());
             subirProcesosMemoria();
-        } else 
+            proceso = gestor.obtenerUltimoProceso();
+            metrica = guardarMetrica(proceso);
             metrica.actualizarTiemposEjecucion();
+            tiempoArriba = 1;
+            cambioProceso = true;
+        } else {
+            metrica.actualizarTiemposEjecucion();
+            tiempoArriba++;
+            cambioProceso = false;
+        }
     }
     
     public void iniciarRoundRobin() {

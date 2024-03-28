@@ -4,7 +4,6 @@
  */
 package vistas;
 
-import algoritmos.GeneradorMetricas.Metrica;
 import algoritmos.Proceso;
 import controlador.ControladorDetalles;
 import javafx.scene.Scene;
@@ -28,6 +27,7 @@ public class VistaDetallesProceso extends Vista {
             return;
         this.tiempoReal = new VBox(10,
             new Label("Tiempo ejecutado: " + 0 + " [ms]"),
+            new Label("Tiempo ejeción total: " + 0 + " [ms]"),
             new Label("Tiempo primera subida: " + 0 + " [ms]"),
             new Label("Tiempo ultima subida: " + 0 + " [ms]"),
             new Label("Tiempo de espera: " + 0 + " [ms]"),

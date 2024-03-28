@@ -37,16 +37,18 @@ public class ControladorDetalles extends Controlador {
         float t;
         if((t = metrica.obtenerTiempoEjecutado()) > 0)
             ((Label)tiempoReal.getChildren().get(0)).setText("Tiempo ejecutado: " + t + " [ms]");
+        if((t = metrica.obtenerTiempoEjecutadoActual()) > 0)
+            ((Label)tiempoReal.getChildren().get(1)).setText("Tiempo máximo de ejecución: " + t + " [ms]");
         if((t = metrica.obtenerPrimeraSubida()) > 0)
-            ((Label)tiempoReal.getChildren().get(1)).setText("Tiempo primera subida: " + t + " [ms]");
+            ((Label)tiempoReal.getChildren().get(2)).setText("Tiempo primera subida: " + t + " [ms]");
         if((t = metrica.obtenerMaximaEspera()) > 0)
-            ((Label)tiempoReal.getChildren().get(2)).setText("Tiempo ultima subida: " + t + " [ms]");
+            ((Label)tiempoReal.getChildren().get(3)).setText("Tiempo ultima subida: " + t + " [ms]");
         if((t = metrica.calcularTiempoEspera()) > 0)
-            ((Label)tiempoReal.getChildren().get(3)).setText("Tiempo de espera: " + t + " [ms]");
+            ((Label)tiempoReal.getChildren().get(4)).setText("Tiempo de espera: " + t + " [ms]");
         if((t = metrica.calcularTiempoRespuesta()) > 0)
-            ((Label)tiempoReal.getChildren().get(4)).setText("Tiempo de respuesta: " + t + " [ms]");
+            ((Label)tiempoReal.getChildren().get(5)).setText("Tiempo de respuesta: " + t + " [ms]");
         if((t = metrica.calcularTiempoEjecucion()) > 0)
-            ((Label)tiempoReal.getChildren().get(5)).setText("Tiempo de ejecución: " + t + " [ms]");
+            ((Label)tiempoReal.getChildren().get(6)).setText("Tiempo de ejecución: " + t + " [ms]");
     }
     
 }

@@ -53,6 +53,10 @@ public class GestorDeMemoria implements Observable {
         --this.posicionFinal;
         return proceso;
     }
+
+    public Proceso obtenerUltimoProceso() {
+        return this.procesosEnMemoria.verFinal();
+    }
     
     public float obtenerMemoriaTotal() {
         return this.memoriaTotal;
