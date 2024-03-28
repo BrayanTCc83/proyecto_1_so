@@ -4,5 +4,7 @@ module com.planificacion.procesos.proyecto {
     requires javafx.base;
     requires javafx.graphics;
     requires java.base;
+    requires javafx.fxml;
+    requires javafx.fxmlEmpty;
     exports com.planificacion.procesos.proyecto;
 }
