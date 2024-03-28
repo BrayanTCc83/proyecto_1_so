@@ -9,34 +9,34 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="643.0" prefWidth="629.0" style="-fx-background-color: linear-gradient(#7ed56f, #28b485, #2998ff, #5643fa);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ViewController">
+<AnchorPane id="AnchorPane" prefHeight="643.0" prefWidth="629.0" style="-fx-background-color: linear-gradient(#7ed56f, #28b485, #2998ff, #5643fa);" styleClass="#28b485" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ViewController">
    <children>
-      <Pane layoutX="394.0" layoutY="368.0" prefHeight="59.0" prefWidth="214.0" style="-fx-background-color: #aaa;">
+      <Pane layoutX="394.0" layoutY="385.0" prefHeight="59.0" prefWidth="214.0" style="-fx-background-color: linear-gradient(to left, #2998ff, #5643fa); -fx-border-color: black;">
          <children>
-            <Button layoutX="88.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: grey;" text="Iniciar Simulación" />
-            <Button layoutX="14.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: green; -fx-background-radius: 30;" text="Cancelar" />
+            <Button layoutX="88.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #28b485; -fx-background-radius: 30;" text="Iniciar Simulación" />
+            <Button layoutX="14.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #28b485; -fx-background-radius: 30;" text="Cancelar" />
          </children>
       </Pane>
-      <Pane layoutX="394.0" layoutY="88.0" prefHeight="255.0" prefWidth="214.0" style="-fx-background-color: #aaa;">
+      <Pane layoutX="394.0" layoutY="33.0" prefHeight="298.0" prefWidth="214.0" style="-fx-background-color: linear-gradient(to left, #2998ff, #5643fa); -fx-border-color: black;">
          <children>
-            <Button layoutX="62.0" layoutY="216.0" mnemonicParsing="false" style="-fx-background-color: grey;" text="Crear Proceso" />
+            <Button layoutX="50.0" layoutY="237.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" style="-fx-background-color: #28b485; -fx-background-radius: 30;" text="Crear Proceso" />
             <Text layoutX="95.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" />
             <TextField layoutX="26.0" layoutY="177.0" prefHeight="25.0" prefWidth="166.0" />
-            <Label layoutX="26.0" layoutY="160.0" text="Tamaño:" />
+            <Label layoutX="25.0" layoutY="168.0" text="Tamaño:" />
             <TextField layoutX="24.0" layoutY="135.0" prefHeight="25.0" prefWidth="166.0" />
-            <Label layoutX="26.0" layoutY="119.0" text="Tiempo de llegada:" />
+            <Label layoutX="21.0" layoutY="126.0" text="Tiempo de llegada:" />
             <TextField layoutX="26.0" layoutY="94.0" prefHeight="25.0" prefWidth="166.0" />
-            <Label layoutX="26.0" layoutY="77.0" text="Duración:" />
+            <Label layoutX="23.0" layoutY="85.0" text="Duración:" />
             <TextField layoutX="26.0" layoutY="52.0" prefHeight="25.0" prefWidth="166.0" />
-            <Label layoutX="26.0" layoutY="35.0" text="Nombre:" />
+            <Label layoutX="25.0" layoutY="52.0" style="-fx-font-family: arial;" text="Nombre:" />
          </children>
       </Pane>
-      <TreeTableView layoutX="14.0" layoutY="23.0" prefHeight="598.0" prefWidth="361.0">
+      <TreeTableView layoutX="14.0" layoutY="23.0" prefHeight="598.0" prefWidth="361.0" style="-fx-background-color: linear-gradient(to left, #2998ff, #5643fa); -fx-border-color: black;">
         <columns>
           <TreeTableColumn prefWidth="75.0" text="Nombre" />
           <TreeTableColumn prefWidth="81.0" text="Duración" />
-            <TreeTableColumn prefWidth="112.0" text="Tiempo de llegada" />
-            <TreeTableColumn prefWidth="92.0" text="Tamaño" />
+            <TreeTableColumn prefWidth="124.0" text="Tiempo de llegada" />
+            <TreeTableColumn text="Tamaño" />
         </columns>
       </TreeTableView>
    </children>
